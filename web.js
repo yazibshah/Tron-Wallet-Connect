@@ -35,30 +35,3 @@ async function getAccount() {
     return [];
   }
 }
-
-// Handle chain (network) and sign transaction
-sendTransactionButton.addEventListener("click", async () => {
-  if (window.okxwallet.tronLink.ready) {
-    const tronweb = window.okxwallet.tronLink.tronWeb;
-    const fromAddress = "TNPeeaaFB7K9cmo4uQpcU32zGK8G1NYqeL";
-    const toAddress = "TAHQdDiZajMMP26STUnfsiRMNyXdxAJakZ";
-
-    try {
-      const tx = await tronweb.transactionBuilder.sendTrx(
-        toAddress,
-        10,
-        fromAddress
-      ); // Step1
-      const signedTx = await tronweb.trx.sign(tx); // Step2
-      await tronweb.trx.sendRawTransaction(signedTx); // Step3
-      resultDom.innerHTML = signedTx;
-    } catch (error) {
-      // error handling
-      console.log(error);
-      resultDom.innerHTML = error?.message || error;
-    }
-  } else {
-    alert("Wallet not connected");
-  }
-});
-
